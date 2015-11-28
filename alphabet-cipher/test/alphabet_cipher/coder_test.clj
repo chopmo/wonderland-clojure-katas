@@ -4,7 +4,7 @@
 
 (deftest test-encode
   (testing "can encode given a secret keyword"
-    (is (= "hmkbxebpxpmyllyrxiiqtoltfgzzv"
+    (is (= "hmkbxebPxpmyllyrxiiqtoltfgzzv"
            (encode "vigilance" "meetmeontuesdayeveningatseven")))
     (is (= "egsgqwtahuiljgs"
            (encode "scones" "meetmebythetree")))))
