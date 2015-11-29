@@ -3,22 +3,37 @@
 
 (def alphabet "abcdefghijklmnopqrstuvwxyz")
 
-(defn mapping [keyword-char]
-  (let [alphabet-offset (- (int keyword-char) (int \a))
-        shifted-alpha (take 25 (drop alphabet-offset (cycle alphabet)))]
-    (zipmap alphabet shifted-alpha)))
+(defn alphabet-offset [c]
+  (- (int c) (int \a)))
+
+(defn shift-alphabet [n]
+  (->> alphabet
+       cycle
+       (drop n)
+       (take 25)))
+
+(defn alphabet-mapping [keychar]
+  (let [offset (alphabet-offset keychar)
+        shifted-alphabet (shift-alphabet offset)]
+    (zipmap alphabet shifted-alphabet)))
 
 (defn encode-char [keyword-char char]
-  ((mapping keyword-char) char))
+  (let [mapping (alphabet-mapping keyword-char)]
+    (mapping char)))
 
 (defn decode-char [keyword-char char]
-  ((s/map-invert (mapping keyword-char)) char))
+  (let [mapping (mapping keyword-char)
+        inverse-mapping (s/map-invert mapping)]
+    (inverse-mapping char)))
+
+(defn process [keyword message operation]
+  (apply str (map operation (cycle keyword) message)))
 
 (defn encode [keyword message]
-  (apply str (map encode-char (cycle keyword) message)))
+  (process keyword message encode-char))
 
 (defn decode [keyword message]
-  (apply str (map decode-char (cycle keyword) message)))
+  (process keyword message decode-char))
 
 (defn decipher [cipher message]
   "decypherme")
