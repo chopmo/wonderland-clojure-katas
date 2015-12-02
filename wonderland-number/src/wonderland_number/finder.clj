@@ -18,3 +18,24 @@
 (defn wonderland-number []
   (let [candidates (range 1 999999)]
     (some wonderland-number? candidates)))
+
+
+;; Continue on with the Wonderland Number kata. If you have finished the
+;; exercise early, you might think of finding other special numbers. For
+;; example, what about numbers under 1,000 that are equal to the sum of the
+;; cubes of its digits?
+(defn digits [n] ; There must be an easier way
+  (letfn [(to-digit [c] (- (int c) (int \0)))]
+    (map to-digit (str n))))
+
+(defn cube [n]
+  (* n n n))
+
+(defn sum-cubed-digits-number? [n]
+  (and
+   (< n 1000)
+   (= n (apply + (map cube (digits n))))
+   n))
+
+(defn sum-cubed-digits-number []
+  (filter sum-cubed-digits-number? (range 1000)))
