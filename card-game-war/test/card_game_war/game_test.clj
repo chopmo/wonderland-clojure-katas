@@ -6,7 +6,10 @@
 ;; fill in  tests for your game
 (deftest test-play-round
   (testing "the highest rank wins the cards in the round"
-    (is (= 0 1)))
+    (is (= :player1
+           (play-round [:diamond 1] [:spade 1])))
+    (is (= :player2
+           (play-round [:club 10] [:heart 10]))))
   (testing "queens are higher rank than jacks")
   (testing "kings are higher rank than queens")
   (testing "aces are higher rank than kings")
@@ -16,4 +19,3 @@
 
 (deftest test-play-game
   (testing "the player loses when they run out of cards"))
-

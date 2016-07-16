@@ -8,6 +8,12 @@
         rank ranks]
     [suit rank]))
 
-(defn play-round [player1-card player2-card])
+(defn suit-value [card]
+  (.indexOf suits (first card)))
+
+(defn play-round [player1-card player2-card]
+  (if (< (suit-value player1-card) (suit-value player2-card))
+    :player2
+    :player1))
 
 (defn play-game [player1-cards player2-cards])
