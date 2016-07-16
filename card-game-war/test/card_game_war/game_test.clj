@@ -7,10 +7,17 @@
 (deftest test-play-round
   (testing "the highest rank wins the cards in the round"
     (is (= :player1
-           (play-round [:diamond 1] [:spade 1])))
+           (play-round [:diamond 1]
+                       [:spade 1])))
     (is (= :player2
-           (play-round [:club 10] [:heart 10]))))
-  (testing "queens are higher rank than jacks")
+           (play-round [:club 10]
+                       [:heart 10]))))
+
+  (testing "queens are higher rank than jacks"
+    (is (= :player1
+           (play-round [:spade :queen]
+                       [:club :jack]))))
+
   (testing "kings are higher rank than queens")
   (testing "aces are higher rank than kings")
   (testing "if the ranks are equal, clubs beat spades")
