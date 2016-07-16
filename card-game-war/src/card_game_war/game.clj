@@ -7,20 +7,33 @@
         rank ranks]
     [suit rank]))
 
+(def suit first)
+(def rank last)
+
 (defn suit-value [card]
-  (.indexOf suits (first card)))
+  (.indexOf suits (suit card)))
 
 (defn rank-value [card]
-  (.indexOf ranks (last card)))
+  (.indexOf ranks (rank card)))
+
+(defn winner [val1 val2]
+  (let [c (compare val1 val2)]
+    (cond
+      (< c 0) :player2
+      (= 0 c) :none
+      (> c 0) :player1)))
+
+(defn rank-winner [card1 card2]
+  (winner (rank-value card1) (rank-value card2)))
+
+(defn suit-winner [card1 card2]
+  (winner (suit-value card1) (suit-value card2)))
 
 (defn play-round [player1-card player2-card]
-  (if (= (rank-value player1-card) (rank-value player2-card))
-   (if (< (suit-value player1-card) (suit-value player2-card))
-     :player2
-     :player1)
-   (if (< (rank-value player1-card) (rank-value player2-card))
-     :player2
-     :player1)))
+  (let [rank-winner (rank-winner player1-card player2-card)]
+    (if (not (= :none rank-winner))
+      rank-winner
+      (suit-winner player1-card player2-card))))
 
 (defn play-game [player1-cards player2-cards]
   (if (empty? player1-cards)
