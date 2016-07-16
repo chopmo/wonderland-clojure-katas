@@ -36,14 +36,13 @@
       (suit-winner player1-card player2-card))))
 
 (defn play-game [player1-cards player2-cards]
-  (if (empty? player1-cards)
-    :player2
-    (if (empty? player2-cards)
-      :player1
-      (let [p1-card (first player1-cards)
-            p1-hand (vec (rest player1-cards))
-            p2-card (first player2-cards)
-            p2-hand (vec (rest player2-cards))]
-        (if (= :player1 (play-round p1-card p2-card))
-          (recur (conj p1-hand p1-card p2-card) p2-hand)
-          (recur p1-hand (conj p2-hand p1-card p2-card)))))))
+  (cond
+    (empty? player1-cards) :player2
+    (empty? player2-cards) :player1
+    true (let [card1 (first player1-cards)
+               hand1 (vec (rest player1-cards))
+               card2 (first player2-cards)
+               hand2 (vec (rest player2-cards))]
+           (if (= :player1 (play-round card1 card2))
+             (recur (conj hand1 card1 card2) hand2)
+             (recur hand1 (conj hand2 card1 card2))))))
